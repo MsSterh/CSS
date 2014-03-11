@@ -1,0 +1,113 @@
+// for ie7
+@mixin inline-block {
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+}
+
+@mixin clear {
+  &:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+  }
+}
+
+@mixin experimental($property, $value) {
+  -moz-#{$property}: $value;
+  -webkit-#{$property}: $value;
+  -ms-#{$property}: $value;
+  #{$property}: $value;
+}
+
+@mixin background-size($value: contain) {
+  @include experimental(background-size, $value);
+}
+
+@mixin border-radius($radius: 1em) {
+  @include experimental(border-radius, $radius);
+}
+
+@mixin box-shadow($bs) {
+  @include experimental(box-shadow, #{$bs});
+}
+
+@mixin box-rotate($deg: 5deg) {
+  @include experimental(transform, rotate($deg));
+}
+
+@mixin box-sizing($bs: border-box) {
+  @include experimental(box-sizing, $bs);
+}
+
+@mixin transform($value) {
+  @include experimental(transform, $value);
+}
+
+@mixin transition($property) {
+  @include experimental(transition, $property);
+}
+
+// for text-align: justify
+@mixin hyphens($value: auto) {
+  @include experimental(hyphens, $value);
+} 
+
+// use font servises to know if font support some features (ex.: http://fontdeck.com/)
+// $prop = "dlig" 1, "kern" 1, "frac" 1, "liga" 1, onum" 1, "tnum" 1, "smcp" 1, "pcap" 1, "ss01" 1, "swsh" 1, "cswh" 1, "calt"
+// ie 10+
+@mixin font-feature-settings($prop) {
+  @include experimental(font-feature-settings, $prop);
+}
+
+@mixin gradient($from, $to) {
+  background-color: $to;
+  background-image: -moz-linear-gradient(top, $from, $to); // ff
+  background-image: -ms-linear-gradient(top, $from, $to); // ie10+
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, $from),color-stop(1, $to)); // safari/chrome10
+  background-image: -webkit-linear-gradient(linear,left top,left bottom,color-stop(0, $from),color-stop(1, $to)); // chrome11+
+  background-image: linear-gradient(top, $from, $to);
+}
+
+@mixin gradient_ie($from, $to) {
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#{$from}, EndColorStr=#{$to}); // ie8
+}
+
+// for change custom inputs on iPad
+@mixin appearance {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+// for iconfont
+@mixin antismooth {
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+@mixin opacity($value) {
+  filter: alpha(opacity=#{$value*100}); // ie7-
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$value*100})"; // ie8
+  //-khtml-opacity: 0.5; // Safari 1.x
+  -moz-opacity: $value;
+  opacity: $value;
+}
+
+@mixin placeholder($property, $value) {
+  &::-webkit-input-placeholder {
+    #{$property}: $value;
+  }
+
+  &:-moz-placeholder {
+    #{$property}: $value;
+  }
+}
+
+// none for prevent user select
+@mixin user-select($value: none) {
+  -webkit-touch-callout: $value;
+
+  @include experimental(user-select, $value);
+}
